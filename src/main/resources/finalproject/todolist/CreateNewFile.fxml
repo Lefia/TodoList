@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane fx:id="root" minHeight="400.0" minWidth="600.0" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="finalproject.todolist.controller.CreateNewFileController">
+  <children>
+    <VBox alignment="CENTER" layoutX="206.0" layoutY="130.0" prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <children>
+        <ImageView fitHeight="90.0" fitWidth="160.0" pickOnBounds="true" preserveRatio="true">
+          <image>
+            <Image url="@Icons/todo-list.png" />
+          </image>
+          <VBox.margin>
+            <Insets />
+          </VBox.margin>
+        </ImageView>
+        <Text stroke="BLACK" strokeType="OUTSIDE" strokeWidth="0.0" text=" Todo List">
+          <font>
+            <Font name="System Bold" size="35.0" />
+          </font>
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
+        </Text>
+            <VBox>
+               <children>
+                  <HBox>
+                     <children>
+                        <Region prefWidth="215.0" />
+                        <Label fx:id="message" text="Create New List" underline="true">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                     </children>
+                     <VBox.margin>
+                        <Insets top="10.0" />
+                     </VBox.margin>
+                  </HBox>
+                  <HBox>
+                     <children>
+                        <Region prefWidth="215.0" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="List name">
+                    <font>
+                      <Font size="15.0" />
+                    </font>
+                  </Text>
+                        <Region HBox.hgrow="ALWAYS" />
+                        <TextField fx:id="name" prefWidth="80.0" promptText="NewList" />
+                        <Region prefWidth="200.0" />
+                     </children>
+                     <VBox.margin>
+                        <Insets top="10.0" />
+                     </VBox.margin>
+                  </HBox>
+                  <HBox>
+                     <children>
+                        <Region prefWidth="215.0" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Location">
+                    <font>
+                      <Font size="15.0" />
+                    </font>
+                  </Text>
+                        <Region HBox.hgrow="ALWAYS" />
+                  <Button mnemonicParsing="false" onAction="#browse" prefWidth="60.0" text="Browse" />
+                        <Region prefWidth="200.0" />
+                     </children>
+                     <padding>
+                        <Insets top="10.0" />
+                     </padding>
+                     <VBox.margin>
+                        <Insets top="5.0" />
+                     </VBox.margin>
+                  </HBox>
+               </children>
+            </VBox>
+            <Label fx:id="path" contentDisplay="RIGHT">
+               <VBox.margin>
+                  <Insets top="10.0" />
+               </VBox.margin>
+            </Label>
+            <Button mnemonicParsing="false" onAction="#create" text="Create">
+               <VBox.margin>
+                  <Insets top="15.0" />
+               </VBox.margin>
+            </Button>
+      </children>
+    </VBox>
+      <Button mnemonicParsing="false" onAction="#back" text="← Back" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="20.0" />
+  </children>
+</AnchorPane>
