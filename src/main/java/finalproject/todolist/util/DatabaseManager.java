@@ -1,25 +1,24 @@
 package finalproject.todolist.util;
 
-import finalproject.todolist.Main;
-import java.sql.Connection;
-import java.sql.DriverManager;
-// import java.sql.ResultSet;
-import java.sql.SQLException;
-// java.sql.Statement;
+import java.sql.*;
 
-public class DatabaseController {
+public class DatabaseManager {
     private String filePath;
     private Connection connection;
 
-    public void setLocation(String fullpath) {
+    public void setFilePath(String fullpath) {
         this.filePath = fullpath;
     }
-    public void setLocation(String path, String name) {
-        this.filePath = path + name + ".db";
+
+    public void setFilePath(String folderPath, String name) {
+        this.filePath = folderPath + '\\' + name + ".db";
     }
-    public String getLocation() {
+
+    // 測試用
+    public String getFilePath() {
         return filePath;
     }
+
     public void connect() {
         try {
             connection = DriverManager.getConnection("jdbc:sqlite:" + filePath);
@@ -27,6 +26,7 @@ public class DatabaseController {
             System.err.println(e.getMessage());
         }
     }
+
     public void disconnect() {
         try {
             connection.close();
@@ -36,9 +36,9 @@ public class DatabaseController {
     }
 
     // Singleton
-    private DatabaseController() {}
-    public static DatabaseController instance = new DatabaseController();
-    public static DatabaseController getInstance() {
+    private DatabaseManager() {}
+    public static DatabaseManager instance = new DatabaseManager();
+    public static DatabaseManager getInstance() {
         return instance;
     }
 }
