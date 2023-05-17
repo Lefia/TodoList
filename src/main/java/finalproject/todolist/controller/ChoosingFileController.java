@@ -1,16 +1,18 @@
 package finalproject.todolist.controller;
 
-import finalproject.todolist.util.DatabaseController;
-import finalproject.todolist.util.ScreenController;
+import finalproject.todolist.util.*;
 import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
-import java.io.File;
+
+import java.sql.SQLException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import javafx.fxml.FXML;
+import java.io.File;
+
 
 public class ChoosingFileController {
     @FXML
@@ -19,12 +21,11 @@ public class ChoosingFileController {
     private Label message;
     @FXML
     public void create(ActionEvent event) {
-        ScreenController screenController = ScreenController.getInstance();
-        screenController.activate("CreateNewFile");
+        SceneManager.getInstance().activate("CreateNewFile");
     }
 
     @FXML
-    public void open(ActionEvent event) {
+    public void open(ActionEvent event){
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Open File");
         File file = fileChooser.showOpenDialog(root.getScene().getWindow());
@@ -36,12 +37,8 @@ public class ChoosingFileController {
                 message.setVisible(true);
                 return;
             }
-            DatabaseController databaseController = DatabaseController.getInstance();
-            databaseController.setLocation(filePath);
-            System.out.println(databaseController.getLocation());
-
-            ScreenController screenController = ScreenController.getInstance();
-            screenController.activate("MainPage");
+            DatabaseManager.getInstance().setFilePath(filePath);
+            SceneManager.getInstance().activate("MainPage");
         }
     }
     private Boolean isDatabase(String filePath) {
