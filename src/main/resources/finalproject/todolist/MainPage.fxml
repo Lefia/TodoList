@@ -8,15 +8,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane maxHeight="-Infinity"
-            maxWidth="-Infinity"
-            minHeight="-Infinity"
-            minWidth="-Infinity"
-            prefHeight="400.0"
-            prefWidth="600.0"
-            xmlns="http://javafx.com/javafx/19"
-            xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="finalproject.todolist.controller.MainPageController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="finalproject.todolist.controller.MainPageController">
 <top>
   <MenuBar BorderPane.alignment="CENTER">
     <menus>
@@ -39,7 +31,7 @@
   </MenuBar>
 </top>
 <left>
-  <VBox prefHeight="200.0" prefWidth="120.0" style="-fx-background-color: green;" BorderPane.alignment="CENTER" />
+  <VBox fx:id="leftMenu" prefHeight="200.0" prefWidth="120.0" style="-fx-background-color: green;" BorderPane.alignment="CENTER" />
 </left>
 <center>
   <ScrollPane fx:id="scrollpane" hbarPolicy="NEVER" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
@@ -53,4 +45,3 @@
   </ScrollPane>
 </center>
 </BorderPane>
-
