@@ -1,8 +1,5 @@
 # 期末專案
 ## 待辦事項
-- 主要
-  - 更換切換場景的方式，以便使用 listener (pane -> scene)
-  - 連結資料庫並新增資料
 - 場景
   - Main
     - 側欄
@@ -13,6 +10,16 @@
     - 增加切換場景的 listener 以解決警告訊息還存在的問題
 
 ## 記錄
+<details>
+<summary>5/17</summary>
+
+- 成功連接資料庫
+- 修正新增檔案時路徑與名字間沒有反斜線的問題
+- Class 可以用 static block 來進行初始化
+- 將 ScreenController 改寫為 SceneManager，直接切換 Scene 而不是 root pane
+
+</details>
+
 <details>
 <summary>5/11</summary>
 
