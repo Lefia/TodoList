@@ -11,6 +11,7 @@ public class Main extends Application {
     public void start(Stage stage) throws IOException {
         SceneManager.getInstance().setStage(stage);
         SceneManager.getInstance().activate("ChoosingFile");
+        stage.sceneProperty().addListener(SceneListener.getInstance());
         stage.setTitle("TodoList");
         stage.show();
     }
