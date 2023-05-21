@@ -22,7 +22,10 @@ public class SceneManager {
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource(name + ".fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 600, 400);
         sceneMap.put(name, scene);
+    }
 
+    public Scene getScene(String name) {
+        return sceneMap.get(name);
     }
 
     public void removeScene(String name){
@@ -47,16 +50,13 @@ public class SceneManager {
     public static SceneManager instance;
 
     public static SceneManager getInstance() {
-        return instance;
-    }
-
-    // static : 在 Class 被載入時自動執行，通常用來初始化靜態變數
-    static {
         try {
-            instance = new SceneManager();
+            if (instance == null) {
+                instance = new SceneManager();
+            }
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+        return instance;
     }
-
 }
