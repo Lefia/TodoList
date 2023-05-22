@@ -3,12 +3,23 @@ package finalproject.todolist.component;
 import java.time.LocalDate;
 
 public class Task {
+    private String id;
 
     private String name;
 
     private String description;
 
     private String date;
+
+    private boolean done;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public String getName() {
         return name;
@@ -34,10 +45,20 @@ public class Task {
         this.date = date;
     }
 
-    public Task(String name, String description, String date) {
+    public boolean isDone() {
+        return done;
+    }
+
+    public void setDone(boolean done) {
+        this.done = done;
+    }
+
+    public Task(String id, String name, String description, String date, boolean done) {
+        this.id = id;
         this.name = name;
         this.description = description;
         this.date = date;
+        this.done = done;
     }
 
 
