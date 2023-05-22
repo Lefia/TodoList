@@ -47,23 +47,23 @@
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <Label fx:id="message" text="Create New List" underline="true" GridPane.columnIndex="1" GridPane.columnSpan="3">
+                  <Label fx:id="message" text="建立新的清單" underline="true" GridPane.columnIndex="1" GridPane.columnSpan="3">
                      <font>
                         <Font size="14.0" />
                      </font>
                   </Label>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="List name" GridPane.columnIndex="1" GridPane.rowIndex="1">
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="清單名稱" GridPane.columnIndex="1" GridPane.rowIndex="1">
               <font>
                 <Font size="15.0" />
               </font>
             </Text>
                   <TextField fx:id="name" prefWidth="80.0" promptText="NewList" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Location" GridPane.columnIndex="1" GridPane.rowIndex="2">
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="選擇目錄" GridPane.columnIndex="1" GridPane.rowIndex="2">
               <font>
                 <Font size="15.0" />
               </font>
             </Text>
-            <Button mnemonicParsing="false" onAction="#browse" prefWidth="60.0" text="Browse" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+            <Button mnemonicParsing="false" onAction="#browse" prefWidth="60.0" text="瀏覽" GridPane.columnIndex="2" GridPane.rowIndex="2" />
                </children>
             </GridPane>
             <Label fx:id="path" contentDisplay="RIGHT">
@@ -71,13 +71,13 @@
                   <Insets top="10.0" />
                </VBox.margin>
             </Label>
-            <Button mnemonicParsing="false" onAction="#create" text="Create">
+            <Button mnemonicParsing="false" onAction="#create" text="建立">
                <VBox.margin>
                   <Insets top="15.0" />
                </VBox.margin>
             </Button>
       </children>
     </VBox>
-      <Button mnemonicParsing="false" onAction="#back" text="← Back" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="20.0" />
+      <Button mnemonicParsing="false" onAction="#back" text="← 返回" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="20.0" />
   </children>
 </AnchorPane>
