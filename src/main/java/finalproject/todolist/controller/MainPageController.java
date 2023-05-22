@@ -18,12 +18,7 @@ public class MainPageController {
     private VBox list;
 
     @FXML
-    public void add(ActionEvent e) throws SQLException {
-        DialogManager.getInstance().addTask();
-    }
-
-    @FXML
-    public void delete(ActionEvent e) {
+    public void add(ActionEvent e) {
         DialogManager.getInstance().addTask();
     }
 

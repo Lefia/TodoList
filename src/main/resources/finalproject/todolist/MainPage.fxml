@@ -11,27 +11,21 @@
 <top>
   <MenuBar BorderPane.alignment="CENTER">
     <menus>
-      <Menu mnemonicParsing="false" text="Edit">
+      <Menu mnemonicParsing="false" text="編輯">
+               <items>
+                  <MenuItem mnemonicParsing="false" onAction="#add" text="新增" />
+               </items></Menu>
+      <Menu mnemonicParsing="false" text="排序" />
+      <Menu mnemonicParsing="false" text="測試">
         <items>
-                  <MenuItem mnemonicParsing="false" onAction="#add" text="Add" />
-          <MenuItem mnemonicParsing="false" onAction="#delete" text="Delete" />
-        </items>
-      </Menu>
-      <Menu mnemonicParsing="false" text="View">
-        <items>
-          <MenuItem mnemonicParsing="false" text="Close" />
-        </items>
-      </Menu>
-      <Menu mnemonicParsing="false" text="Help">
-        <items>
-          <MenuItem mnemonicParsing="false" onAction="#refresh" text="Refresh" />
+          <MenuItem mnemonicParsing="false" onAction="#refresh" text="重新整理" />
         </items>
       </Menu>
     </menus>
   </MenuBar>
 </top>
 <left>
-  <VBox fx:id="leftMenu" prefHeight="200.0" prefWidth="120.0" style="-fx-background-color: green;" BorderPane.alignment="CENTER" />
+  <VBox fx:id="leftMenu" prefHeight="200.0" prefWidth="120.0" style="-fx-background-color: grey;" BorderPane.alignment="CENTER" />
 </left>
 <center>
   <ScrollPane fx:id="scrollpane" hbarPolicy="NEVER" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
