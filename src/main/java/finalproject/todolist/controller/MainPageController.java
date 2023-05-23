@@ -2,7 +2,8 @@ package finalproject.todolist.controller;
 
 import finalproject.todolist.Globe;
 import finalproject.todolist.util.DialogManager;
-import finalproject.todolist.util.TaskManager;
+import finalproject.todolist.util.ListManager;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.ScrollPane;
@@ -15,21 +16,30 @@ public class MainPageController {
     private ScrollPane scrollpane;
 
     @FXML
-    private VBox list;
+    private VBox taskList;
 
     @FXML
-    public void add(ActionEvent e) {
+    private VBox categoryList;
+
+    @FXML
+    private void addTask(ActionEvent event) throws SQLException {
         DialogManager.getInstance().addTask();
     }
 
     @FXML
-    public void refresh(ActionEvent e) throws SQLException {
-        TaskManager.getInstance().refreshList(list);
+    private void addCategory(ActionEvent event) throws SQLException {
+        DialogManager.getInstance().addCategory();
     }
 
     @FXML
-    public void initialize() {
-        list.prefWidthProperty().bind(scrollpane.widthProperty());
-        Globe.getInstance().add("List", list);
+    private void refresh(ActionEvent e) throws SQLException {
+        ListManager.getInstance().showTaskList(taskList, (String) Globe.getInstance().get("currentCategory"));
+    }
+
+    @FXML
+    private void initialize() {
+        taskList.prefWidthProperty().bind(scrollpane.widthProperty());
+        Globe.getInstance().put("taskList", taskList);
+        Globe.getInstance().put("categoryList", categoryList);
     }
 }
