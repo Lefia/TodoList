@@ -11,10 +11,12 @@ import java.sql.SQLException;
 public class SceneListener implements ChangeListener<Scene> {
     @Override
     public void changed(ObservableValue<? extends Scene> observable, Scene oldScene, Scene newScene) {
-        System.out.println("Scene changed from: " + oldScene + " to: " + newScene);
         if (newScene.equals(SceneManager.getInstance().getScene("MainPage"))) {
             try {
-                TaskManager.getInstance().refreshList((VBox) Globe.getInstance().get("List"));
+                DatabaseManager.getInstance().initialize();
+                Globe.getInstance().put("currentCategory", "Inbox");
+                ListManager.getInstance().showTaskList((VBox) Globe.getInstance().get("taskList"), (String) Globe.getInstance().get("currentCategory"));
+                ListManager.getInstance().showCategoryList((VBox) Globe.getInstance().get("categoryList"));
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
