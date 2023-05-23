@@ -29,6 +29,7 @@ public class CreateNewFileController {
     @FXML
     public void browse(ActionEvent event) {
         DirectoryChooser directoryChooser = new DirectoryChooser();
+        directoryChooser.setInitialDirectory(new File(System.getProperty("user.home")));
         directoryChooser.setTitle("Select Folder");
         File directory = directoryChooser.showDialog(root.getScene().getWindow());
         if (directory != null) {
