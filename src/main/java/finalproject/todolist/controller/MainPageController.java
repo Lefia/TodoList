@@ -27,12 +27,12 @@ public class MainPageController {
     }
 
     @FXML
-    private void addCategory(ActionEvent event) throws SQLException {
+    private void addCategory(ActionEvent event) {
         DialogManager.getInstance().addCategory();
     }
 
     @FXML
-    private void refresh(ActionEvent e) throws SQLException {
+    private void refresh(ActionEvent event) throws SQLException {
         ListManager.getInstance().showTaskList(taskList, (String) Globe.getInstance().get("currentCategory"));
     }
 

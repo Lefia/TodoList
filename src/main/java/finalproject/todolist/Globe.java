@@ -2,7 +2,7 @@ package finalproject.todolist;
 
 import java.util.HashMap;
 public class Globe {
-    private HashMap<String,Object> globeList;
+    private final HashMap<String,Object> globeList;
 
     public Object get(String key) {
         return globeList.get(key);

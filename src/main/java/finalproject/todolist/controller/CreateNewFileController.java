@@ -2,6 +2,7 @@ package finalproject.todolist.controller;
 
 import finalproject.todolist.util.DatabaseManager;
 import finalproject.todolist.util.SceneManager;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -9,8 +10,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.stage.DirectoryChooser;
+
 import java.io.File;
-import java.sql.SQLException;
 
 public class CreateNewFileController {
     private static String filePath;

@@ -1,16 +1,13 @@
 package finalproject.todolist.controller;
 
 import finalproject.todolist.util.*;
+
 import javafx.event.ActionEvent;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
-
-import java.sql.SQLException;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import javafx.fxml.FXML;
+
 import java.io.File;
 
 
