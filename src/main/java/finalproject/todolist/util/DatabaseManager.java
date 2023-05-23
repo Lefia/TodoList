@@ -19,11 +19,7 @@ public class DatabaseManager {
         this.filePath = folderPath + '\\' + name + ".db";
     }
 
-    // 測試用
-    public String getFilePath() {
-        return filePath;
-    }
-
+    // 與資料庫建立連線
     private void connect() {
         try {
             connection = DriverManager.getConnection("jdbc:sqlite:" + filePath);
@@ -32,6 +28,7 @@ public class DatabaseManager {
         }
     }
 
+    // 關閉與資料庫的連線
     private void disconnect() {
         try {
             connection.close();
@@ -40,19 +37,16 @@ public class DatabaseManager {
         }
     }
 
-    public void createTable(String name) throws SQLException {
-        connect();
-        String createQuery = "CREATE TABLE IF NOT EXISTS " + name + " (Id STRING, Name STRING, Description STRING, Date STRING, Done BOOLEAN)";
-        PreparedStatement statement = connection.prepareStatement(createQuery);
-        statement.executeUpdate();
-        disconnect();
+    // 用於在場景切換至 MainPage 時做初始化
+    public void initialize() throws SQLException {
+        createCategory("Inbox"); // 避免發生找不到 table 的錯誤
     }
 
+    // 新增任務到資料庫
     public void addTask(Task task) throws SQLException {
         connect();
-        String insertQuery = "INSERT INTO Inbox (Id, Name, Description, Date, Done) VALUES (?, ?, ?, ?, ?)";
+        String insertQuery = "INSERT INTO %s (Id, Name, Description, Date, Done) VALUES (?, ?, ?, ?, ?)".formatted(task.getCategory());
         PreparedStatement statement = connection.prepareStatement(insertQuery);
-
         statement.setString(1, task.getId());
         statement.setString(2, task.getName());
         statement.setString(3, task.getDescription());
@@ -62,13 +56,13 @@ public class DatabaseManager {
         statement.executeUpdate();
         disconnect();
 
-        TaskManager.getInstance().refreshList((VBox) Globe.getInstance().get("List"));
+        ListManager.getInstance().showTaskList((VBox) Globe.getInstance().get("taskList"), (String) Globe.getInstance().get("currentCategory"));
     }
 
+    // 編輯資料庫中的任務
     public void editTask(Task task) throws SQLException {
         connect();
-        String updateQuery = "UPDATE Inbox SET Name = ?, Description = ?, Date = ?, Done = ? WHERE Id = ?";
-
+        String updateQuery = "UPDATE %s SET Name = ?, Description = ?, Date = ?, Done = ? WHERE Id = ?".formatted(task.getCategory());
         PreparedStatement statement = connection.prepareStatement(updateQuery);
         statement.setString(1, task.getName());
         statement.setString(2, task.getDescription());
@@ -83,42 +77,93 @@ public class DatabaseManager {
         }
 
         disconnect();
-        TaskManager.getInstance().refreshList((VBox) Globe.getInstance().get("List"));
+        ListManager.getInstance().showTaskList((VBox) Globe.getInstance().get("taskList"), (String) Globe.getInstance().get("currentCategory"));
     }
 
+    // 從資料庫中刪除任務
     public void deleteTask(Task task) throws SQLException {
         connect();
-        Statement statement = connection.createStatement();
-        statement.execute("DELETE FROM Inbox WHERE Id='%s'".formatted(task.getId()));
+        String deleteQuery = "DELETE FROM Inbox WHERE Id = ?";
+        PreparedStatement statement = connection.prepareStatement(deleteQuery);
+        statement.setString(1, task.getId());
+        statement.executeUpdate();
         disconnect();
-        TaskManager.getInstance().refreshList((VBox) Globe.getInstance().get("List"));
+        ListManager.getInstance().showTaskList((VBox) Globe.getInstance().get("taskList"), (String) Globe.getInstance().get("currentCategory"));
     }
 
-    public ArrayList<Task> query() throws SQLException {
+    // 查詢同一類別中的所有任務
+    public ArrayList<Task> queryTask(String category) throws SQLException {
         connect();
         ArrayList<Task> taskList = new ArrayList<>();
         Statement statement = connection.createStatement();
-        ResultSet rs = statement.executeQuery("SELECT * FROM Inbox");
+        ResultSet rs = statement.executeQuery("SELECT * FROM " + category);
         while (rs.next()) {
             taskList.add(new Task(rs.getString("Id"),
                                   rs.getString("Name"),
                                   rs.getString("Description"),
                                   rs.getString("Date"),
-                                  rs.getBoolean("Done")
+                                  rs.getBoolean("Done"),
+                                  category
             ));
         }
         return  taskList;
     }
 
-    public boolean checkTableExists(String tableName) throws SQLException{
+    // 建立新的類別
+    public void createCategory(String category) throws SQLException {
+        connect();
+        String createQuery = "CREATE TABLE IF NOT EXISTS %s (Id STRING, Name STRING, Description STRING, Date STRING, Done BOOLEAN)".formatted(category);
+        PreparedStatement statement = connection.prepareStatement(createQuery);
+        statement.executeUpdate();
+        disconnect();
+    }
+
+    // 確認類別是否存在
+    public boolean checkCategoryExists(String category) throws SQLException{
         connect();
         DatabaseMetaData metaData = connection.getMetaData();
-        ResultSet tables = metaData.getTables(null, null, tableName, null);
+        ResultSet tables = metaData.getTables(null, null, category, new String[]{"TABLE"});
         disconnect();
         return tables.next();
     }
 
-    // Singleton
+    // 回傳在資料庫中的所有類別
+    public ArrayList<String> getAllCategories() throws SQLException {
+        connect();
+        DatabaseMetaData metaData = connection.getMetaData();
+        ResultSet tables = metaData.getTables(null, null, null, new String[]{"TABLE"});
+
+        ArrayList<String> tableList = new ArrayList<>();
+        while (tables.next()) {
+            String tableName = tables.getString("TABLE_NAME");
+            tableList.add(tableName);
+        }
+
+        disconnect();
+        return tableList;
+    }
+
+    // 刪除類別
+    public void deleteCategory(String category) throws SQLException {
+        connect();
+        Statement statement = connection.createStatement();
+        statement.executeUpdate("DROP TABLE  %s".formatted(category));
+        disconnect();
+        ListManager.getInstance().showCategoryList((VBox) Globe.getInstance().get("categoryList"));
+        Globe.getInstance().put("currentCategory", "Inbox");
+        ListManager.getInstance().showTaskList((VBox) Globe.getInstance().get("taskList"), (String) Globe.getInstance().get("currentCategory"));
+    }
+
+    // 編輯類別
+    public void renameCategory(String oldName, String newName) throws SQLException {
+        connect();
+        Statement statement = connection.createStatement();
+        statement.executeUpdate("ALTER TABLE %s RENAME TO %s".formatted(oldName, newName));
+        disconnect();
+        ListManager.getInstance().showCategoryList((VBox) Globe.getInstance().get("categoryList"));
+    }
+
+    /* 單例 */
     private DatabaseManager() {}
 
     public static DatabaseManager instance = new DatabaseManager();
