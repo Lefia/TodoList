@@ -27,23 +27,15 @@ public class ChoosingFileController {
     @FXML
     public void open(ActionEvent event){
         FileChooser fileChooser = new FileChooser();
+        FileChooser.ExtensionFilter fileExtensions = new FileChooser.ExtensionFilter("資料庫 (*.db)", "*.db");
+        fileChooser.getExtensionFilters().add(fileExtensions);
+        fileChooser.setInitialDirectory(new File(System.getProperty("user.home")));
         fileChooser.setTitle("Open File");
         File file = fileChooser.showOpenDialog(root.getScene().getWindow());
         if (file != null) {
             String filePath = file.getAbsolutePath();
-            if (!isDatabase(filePath)) {
-                message.setText("Select a database file!");
-                message.setTextFill(Color.RED);
-                message.setVisible(true);
-                return;
-            }
             DatabaseManager.getInstance().setFilePath(filePath);
             SceneManager.getInstance().activate("MainPage");
         }
-    }
-    private Boolean isDatabase(String filePath) {
-        Pattern pattern = Pattern.compile("\\.db$");
-        Matcher matcher = pattern.matcher(filePath);
-        return matcher.find();
     }
 }
