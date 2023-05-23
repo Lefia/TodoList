@@ -24,6 +24,13 @@ public class SceneManager {
         sceneMap.put(name, scene);
     }
 
+    public void addScene(String name, String stylesheet) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource(name + ".fxml"));
+        Scene scene = new Scene(fxmlLoader.load(), 600, 400);
+        scene.getStylesheets().add(Main.class.getResource(stylesheet + ".css").toExternalForm());
+        sceneMap.put(name, scene);
+    }
+
     public Scene getScene(String name) {
         return sceneMap.get(name);
     }
@@ -43,7 +50,7 @@ public class SceneManager {
     private SceneManager() throws IOException {
         addScene("ChoosingFile");
         addScene("CreateNewFile");
-        addScene("MainPage");
+        addScene("MainPage", "stylesheet");
     }
 
     // Instance for singleton
