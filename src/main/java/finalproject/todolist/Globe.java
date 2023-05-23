@@ -8,16 +8,8 @@ public class Globe {
         return globeList.get(key);
     }
 
-    public void add(String key,Object object) {
+    public void put(String key, Object object) {
         globeList.put(key, object);
-    }
-
-    public void remove(String key) {
-        globeList.remove(key);
-    }
-
-    public void clear() {
-        globeList.clear();
     }
 
     private static Globe instance;
