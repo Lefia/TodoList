@@ -1,7 +1,5 @@
 package finalproject.todolist.component;
 
-import java.time.LocalDate;
-
 public class Task {
     private String id;
 
@@ -10,6 +8,8 @@ public class Task {
     private String description;
 
     private String date;
+
+    private String category;
 
     private boolean done;
 
@@ -45,6 +45,14 @@ public class Task {
         this.date = date;
     }
 
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
     public boolean isDone() {
         return done;
     }
@@ -53,11 +61,12 @@ public class Task {
         this.done = done;
     }
 
-    public Task(String id, String name, String description, String date, boolean done) {
+    public Task(String id, String name, String description, String date, boolean done, String category) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.date = date;
+        this.category = category;
         this.done = done;
     }
 
