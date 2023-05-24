@@ -38,7 +38,12 @@ public class DatabaseManager {
 
     // 用於在場景切換至 MainPage 時做初始化
     public void initialize() throws SQLException {
-        createCategory("Inbox"); // 避免發生找不到 table 的錯誤
+        DatabaseManager.getInstance().createCategory("收件箱");
+        Globe.getInstance().put("currentCategory", "收件箱");
+        Globe.getInstance().put("sortType", "預設");
+        Globe.getInstance().put("showDone", false);
+        ListManager.getInstance().showTaskList();
+        ListManager.getInstance().showCategoryList();
     }
 
     // 新增任務到資料庫
@@ -59,7 +64,7 @@ public class DatabaseManager {
     }
 
     // 編輯資料庫中的任務
-    public void editTask(Task newTask, Task oldTask) throws SQLException {
+    public void editTask(Task oldTask, Task newTask) throws SQLException {
         if (!newTask.getCategory().equals(oldTask.getCategory())) {
             deleteTask(oldTask);
             addTask(newTask);
@@ -73,6 +78,7 @@ public class DatabaseManager {
             statement.setString(3, newTask.getDate());
             statement.setBoolean(4, newTask.isDone());
             statement.setString(5, newTask.getId());
+            statement.executeUpdate();
             disconnect();
         }
         ListManager.getInstance().showTaskList();
@@ -148,7 +154,7 @@ public class DatabaseManager {
         statement.executeUpdate("DROP TABLE  %s".formatted(category));
         disconnect();
         ListManager.getInstance().showCategoryList();
-        Globe.getInstance().put("currentCategory", "Inbox");
+        Globe.getInstance().put("currentCategory", "收件箱");
         ListManager.getInstance().showTaskList();
     }
 
