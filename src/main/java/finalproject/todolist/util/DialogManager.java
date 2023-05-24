@@ -53,7 +53,7 @@ public class DialogManager {
         for (String category : DatabaseManager.getInstance().getAllCategories()) {
             combobox.getItems().add(category);
         }
-        combobox.setValue("Inbox");
+        combobox.setValue("收件箱");
         combobox.setVisibleRowCount(5);
         root.add(combobox, 1, 2);
 
@@ -78,7 +78,7 @@ public class DialogManager {
                     showWarningAlert("新增任務失敗：任務名稱不得為空白");
                 }
                 else {
-                    Task task = new Task(randomString(10),
+                    Task task = new Task(randomString(),
                                          nameTextField.getText().trim(),
                                          descriptionTextArea.getText().trim(),
                                          datePicker.getValue().format(DateTimeFormatter.ofPattern("yyyy/MM/dd")),
@@ -165,12 +165,7 @@ public class DialogManager {
                             datePicker.getValue().format(DateTimeFormatter.ofPattern("yyyy/MM/dd")),
                             oldTask.isDone(),
                             combobox.getValue());
-                    if (!oldTask.getName().equals(newTask.getName())
-                            || !oldTask.getDescription().equals(newTask.getDescription())
-                            || !oldTask.getDate().equals(newTask.getDate())
-                            || !oldTask.getCategory().equals(combobox.getValue())) {
-                        DatabaseManager.getInstance().editTask(newTask, oldTask);
-                    }
+                    DatabaseManager.getInstance().editTask(oldTask, newTask);
 
                 }
             } catch (SQLException ex) {
@@ -218,7 +213,11 @@ public class DialogManager {
                 }
                 else if (DatabaseManager.getInstance().checkCategoryExists(nameTextField.getText().trim())) {
                     showWarningAlert("新增類別失敗：重複的類別名稱");
-                } else {
+                }
+                else if (nameTextField.getText().trim().matches("^[0-9].*$")) {
+                    showWarningAlert("新增類別失敗：類別名稱不能以數字開頭");
+                }
+                else {
                     DatabaseManager.getInstance().createCategory(nameTextField.getText().trim());
                     ListManager.getInstance().showCategoryList();
                 }
@@ -238,7 +237,7 @@ public class DialogManager {
         // DialogPane 樣式
         DialogPane dialogPane = new DialogPane();
         dialogPane.setPrefWidth(250);
-        dialogPane.setHeaderText("新增類別");
+        dialogPane.setHeaderText("修改類別名稱");
 
         // GridPane 樣式
         GridPane root = new GridPane();
@@ -252,7 +251,7 @@ public class DialogManager {
         // 類別名稱
         Label nameLabel = new Label("類別名稱");
         root.add(nameLabel, 0, 0);
-        TextField nameTextField = new TextField("新類別");
+        TextField nameTextField = new TextField(category);
         root.add(nameTextField, 1, 0);
 
         dialogPane.setContent(root);
@@ -269,7 +268,11 @@ public class DialogManager {
                 }
                 else if (DatabaseManager.getInstance().checkCategoryExists(nameTextField.getText().trim())) {
                     showWarningAlert("修改類別失敗：重複的類別名稱");
-                } else {
+                }
+                else if (nameTextField.getText().trim().matches("^[0-9].*$")) {
+                    showWarningAlert("新增類別失敗：類別名稱不能以數字開頭");
+                }
+                else {
                     DatabaseManager.getInstance().renameCategory(category, nameTextField.getText().trim());
                     ListManager.getInstance().showCategoryList();
                 }
@@ -310,12 +313,12 @@ public class DialogManager {
         });
     }
 
-    private String randomString(int length) {
+    private String randomString() {
         String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-        StringBuilder stringBuilder = new StringBuilder(length);
+        StringBuilder stringBuilder = new StringBuilder(10);
         Random random = new Random();
 
-        for (int i = 0; i < length; i++) {
+        for (int i = 0; i < 10; i++) {
             int index = random.nextInt(characters.length());
             char randomChar = characters.charAt(index);
             stringBuilder.append(randomChar);
