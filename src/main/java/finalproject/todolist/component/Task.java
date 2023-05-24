@@ -1,17 +1,17 @@
 package finalproject.todolist.component;
 
 public class Task {
-    private String id;
+    private final String id;
 
-    private String name;
+    private final String name;
 
-    private String description;
+    private final String description;
 
-    private String date;
+    private final String date;
 
-    private String category;
+    private final String category;
 
-    private boolean done;
+    private final boolean done;
 
     public String getId() {
         return id;
