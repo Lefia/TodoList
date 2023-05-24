@@ -1,6 +1,5 @@
 package finalproject.todolist.util;
 
-import finalproject.todolist.Globe;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.scene.Scene;
@@ -13,9 +12,6 @@ public class SceneListener implements ChangeListener<Scene> {
         if (newScene.equals(SceneManager.getInstance().getScene("MainPage"))) {
             try {
                 DatabaseManager.getInstance().initialize();
-                Globe.getInstance().put("currentCategory", "Inbox");
-                ListManager.getInstance().showTaskList();
-                ListManager.getInstance().showCategoryList();
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
