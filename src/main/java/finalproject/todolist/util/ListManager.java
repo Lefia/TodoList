@@ -9,8 +9,10 @@ import javafx.scene.control.*;
 import javafx.scene.layout.*;
 
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Comparator;
 
 public class ListManager {
     // 顯示並刷新指定的任務清單
@@ -19,8 +21,29 @@ public class ListManager {
         list.getChildren().clear();
         String currentCategory = (String) Globe.getInstance().get("currentCategory");
         ArrayList<Task> taskList = DatabaseManager.getInstance().queryTask(currentCategory);
+
+        // 排序
+        String sortType = (String) Globe.getInstance().get("sortType");
+        if (sortType.equals("日期")) {
+            taskList.sort(new DateComparator());
+        }
+        else if (sortType.equals("名稱")) {
+            taskList.sort(new NameComparator());
+        }
+
+        boolean showDone = (boolean) Globe.getInstance().get("showDone");
+
         for (Task task : taskList) {
-            list.getChildren().add(ListManager.getInstance().createTask(task));
+            if (!task.isDone()) {
+                list.getChildren().add(ListManager.getInstance().createTask(task));
+            }
+        }
+        if (showDone) {
+            for (Task task : taskList) {
+                if (task.isDone()) {
+                    list.getChildren().add(ListManager.getInstance().createTask(task));
+                }
+            }
         }
     }
 
@@ -66,9 +89,14 @@ public class ListManager {
         hbox_1.setAlignment(Pos.CENTER_LEFT);
 
         RadioButton radioButton = new RadioButton();
-        radioButton.setOnAction(event -> {
-            if (radioButton.isSelected()) {
-                list.getChildren().remove(root);
+        if (task.isDone()) {
+            radioButton.setSelected(true);
+        }
+        radioButton.selectedProperty().addListener((observable, oldValue, newValue) -> {
+            try {
+                DatabaseManager.getInstance().editTask(task, new Task(task.getId(), task.getName(), task.getDescription(), task.getDate(), newValue, task.getCategory()));
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
             }
         });
         GridPane.setValignment(radioButton, VPos.BOTTOM);
@@ -89,6 +117,7 @@ public class ListManager {
         hbox_2.setSpacing(30);
         root.add(hbox_2, 2, 0, 1, 1);
 
+        // 右鍵選單
         ContextMenu contextMenu = new ContextMenu();
 
         MenuItem editMenuItem = new MenuItem("編輯");
@@ -122,6 +151,11 @@ public class ListManager {
                           "-fx-border-radius: 5px");
         });
 
+        // 將已完成的任務標記為灰色的
+        if (task.isDone()) {
+            root.setStyle("-fx-background-color: #ababab");
+        }
+
         return root;
     }
 
@@ -146,7 +180,7 @@ public class ListManager {
                             "-fx-border-radius: 5px");
         }
 
-        if (!category.equals("Inbox")) {
+        if (!category.equals("收件箱")) {
             ContextMenu contextMenu = new ContextMenu();
 
             MenuItem editMenuItem = new MenuItem("編輯");
@@ -179,6 +213,23 @@ public class ListManager {
         }
 
         return button;
+    }
+
+    // 對日期進行排序
+    static class DateComparator implements Comparator<Task> {
+        @Override
+        public int compare(Task t1, Task t2) {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+            return LocalDate.parse(t1.getDate(), formatter).compareTo(LocalDate.parse(t2.getDate(), formatter));
+        }
+    }
+
+    // 對名字進行排序
+    static class NameComparator implements Comparator<Task> {
+        @Override
+        public int compare(Task t1, Task t2) {
+            return t1.getName().compareTo(t2.getName());
+        }
     }
 
     // 新增 column constrains
