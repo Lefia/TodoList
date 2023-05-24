@@ -9,3 +9,11 @@
     -fx-alignment: CENTER;
     -fx-content-display: LEFT;
 }
+
+.text-area {
+    -fx-wrap-text: true;
+}
+
+.wrap-text {
+    -fx-wrap-text: true;
+}
