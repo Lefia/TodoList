@@ -2,7 +2,6 @@ package finalproject.todolist.util;
 
 import finalproject.todolist.Globe;
 import finalproject.todolist.component.Task;
-import javafx.scene.layout.VBox;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -56,39 +55,38 @@ public class DatabaseManager {
         statement.executeUpdate();
         disconnect();
 
-        ListManager.getInstance().showTaskList((VBox) Globe.getInstance().get("taskList"), (String) Globe.getInstance().get("currentCategory"));
+        ListManager.getInstance().showTaskList();
     }
 
     // 編輯資料庫中的任務
-    public void editTask(Task task) throws SQLException {
-        connect();
-        String updateQuery = "UPDATE %s SET Name = ?, Description = ?, Date = ?, Done = ? WHERE Id = ?".formatted(task.getCategory());
-        PreparedStatement statement = connection.prepareStatement(updateQuery);
-        statement.setString(1, task.getName());
-        statement.setString(2, task.getDescription());
-        statement.setString(3, task.getDate());
-        statement.setBoolean(4, task.isDone());
-        statement.setString(5, task.getId());
-
-        int rowsAffected = statement.executeUpdate();
-
-        if (rowsAffected == 0) {
-            System.out.println("資料更新失敗");
+    public void editTask(Task newTask, Task oldTask) throws SQLException {
+        if (!newTask.getCategory().equals(oldTask.getCategory())) {
+            deleteTask(oldTask);
+            addTask(newTask);
         }
-
-        disconnect();
-        ListManager.getInstance().showTaskList((VBox) Globe.getInstance().get("taskList"), (String) Globe.getInstance().get("currentCategory"));
+        else {
+            connect();
+            String updateQuery = "UPDATE %s SET Name = ?, Description = ?, Date = ?, Done = ? WHERE Id = ?".formatted(newTask.getCategory());
+            PreparedStatement statement = connection.prepareStatement(updateQuery);
+            statement.setString(1, newTask.getName());
+            statement.setString(2, newTask.getDescription());
+            statement.setString(3, newTask.getDate());
+            statement.setBoolean(4, newTask.isDone());
+            statement.setString(5, newTask.getId());
+            disconnect();
+        }
+        ListManager.getInstance().showTaskList();
     }
 
     // 從資料庫中刪除任務
     public void deleteTask(Task task) throws SQLException {
         connect();
-        String deleteQuery = "DELETE FROM Inbox WHERE Id = ?";
+        String deleteQuery = "DELETE FROM %s WHERE Id = ?".formatted(task.getCategory());
         PreparedStatement statement = connection.prepareStatement(deleteQuery);
         statement.setString(1, task.getId());
         statement.executeUpdate();
         disconnect();
-        ListManager.getInstance().showTaskList((VBox) Globe.getInstance().get("taskList"), (String) Globe.getInstance().get("currentCategory"));
+        ListManager.getInstance().showTaskList();
     }
 
     // 查詢同一類別中的所有任務
@@ -149,9 +147,9 @@ public class DatabaseManager {
         Statement statement = connection.createStatement();
         statement.executeUpdate("DROP TABLE  %s".formatted(category));
         disconnect();
-        ListManager.getInstance().showCategoryList((VBox) Globe.getInstance().get("categoryList"));
+        ListManager.getInstance().showCategoryList();
         Globe.getInstance().put("currentCategory", "Inbox");
-        ListManager.getInstance().showTaskList((VBox) Globe.getInstance().get("taskList"), (String) Globe.getInstance().get("currentCategory"));
+        ListManager.getInstance().showTaskList();
     }
 
     // 編輯類別
@@ -160,7 +158,7 @@ public class DatabaseManager {
         Statement statement = connection.createStatement();
         statement.executeUpdate("ALTER TABLE %s RENAME TO %s".formatted(oldName, newName));
         disconnect();
-        ListManager.getInstance().showCategoryList((VBox) Globe.getInstance().get("categoryList"));
+        ListManager.getInstance().showCategoryList();
     }
 
     /* 單例 */
