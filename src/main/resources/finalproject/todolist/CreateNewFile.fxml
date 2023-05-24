@@ -58,7 +58,7 @@
               </font>
             </Text>
                   <TextField fx:id="name" prefWidth="80.0" promptText="NewList" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="選擇目錄" GridPane.columnIndex="1" GridPane.rowIndex="2">
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="選擇資料夾" GridPane.columnIndex="1" GridPane.rowIndex="2">
               <font>
                 <Font size="15.0" />
               </font>

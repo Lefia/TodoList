@@ -56,13 +56,13 @@
                         <Font size="15.0" />
                      </font>
                   </Text>
-                  <Button mnemonicParsing="false" onAction="#create" prefWidth="60.0" text="Create" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                  <Button mnemonicParsing="false" onAction="#create" prefWidth="60.0" text="建立" GridPane.columnIndex="2" GridPane.rowIndex="1" />
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="開啟檔案" GridPane.columnIndex="1" GridPane.rowIndex="2">
                      <font>
                         <Font size="15.0" />
                      </font>
                   </Text>
-                  <Button mnemonicParsing="false" onAction="#open" prefWidth="60.0" text="Open" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                  <Button mnemonicParsing="false" onAction="#open" prefWidth="60.0" text="開啟" GridPane.columnIndex="2" GridPane.rowIndex="2" />
                </children>
             </GridPane>
             <Label contentDisplay="RIGHT">
