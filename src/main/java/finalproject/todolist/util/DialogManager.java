@@ -1,6 +1,5 @@
 package finalproject.todolist.util;
 
-import finalproject.todolist.Globe;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.geometry.VPos;
@@ -55,6 +54,7 @@ public class DialogManager {
             combobox.getItems().add(category);
         }
         combobox.setValue("Inbox");
+        combobox.setVisibleRowCount(5);
         root.add(combobox, 1, 2);
 
         // 任務描述
@@ -130,12 +130,13 @@ public class DialogManager {
         // 任務類別
         Label categoryLabel = new Label("類別");
         GridPane.setValignment(categoryLabel, VPos.TOP);
-        root.add(dateLabel, 0, 2);
+        root.add(categoryLabel, 0, 2);
         ComboBox<String> combobox= new ComboBox<>();
         for (String category : DatabaseManager.getInstance().getAllCategories()) {
             combobox.getItems().add(category);
         }
         combobox.setValue(oldTask.getCategory());
+        combobox.setVisibleRowCount(5);
         root.add(combobox, 1, 2);
 
         // 任務描述
@@ -164,7 +165,13 @@ public class DialogManager {
                             datePicker.getValue().format(DateTimeFormatter.ofPattern("yyyy/MM/dd")),
                             oldTask.isDone(),
                             combobox.getValue());
-                    DatabaseManager.getInstance().editTask(newTask);
+                    if (!oldTask.getName().equals(newTask.getName())
+                            || !oldTask.getDescription().equals(newTask.getDescription())
+                            || !oldTask.getDate().equals(newTask.getDate())
+                            || !oldTask.getCategory().equals(combobox.getValue())) {
+                        DatabaseManager.getInstance().editTask(newTask, oldTask);
+                    }
+
                 }
             } catch (SQLException ex) {
                 throw new RuntimeException(ex);
@@ -213,7 +220,7 @@ public class DialogManager {
                     showWarningAlert("新增類別失敗：重複的類別名稱");
                 } else {
                     DatabaseManager.getInstance().createCategory(nameTextField.getText().trim());
-                    ListManager.getInstance().showCategoryList((VBox) Globe.getInstance().get("categoryList"));
+                    ListManager.getInstance().showCategoryList();
                 }
 
             } catch (SQLException ex) {
@@ -264,7 +271,7 @@ public class DialogManager {
                     showWarningAlert("修改類別失敗：重複的類別名稱");
                 } else {
                     DatabaseManager.getInstance().renameCategory(category, nameTextField.getText().trim());
-                    ListManager.getInstance().showCategoryList((VBox) Globe.getInstance().get("categoryList"));
+                    ListManager.getInstance().showCategoryList();
                 }
 
             } catch (SQLException ex) {
