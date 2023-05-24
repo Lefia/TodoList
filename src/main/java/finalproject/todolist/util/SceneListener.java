@@ -4,7 +4,6 @@ import finalproject.todolist.Globe;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.scene.Scene;
-import javafx.scene.layout.VBox;
 
 import java.sql.SQLException;
 
@@ -15,8 +14,8 @@ public class SceneListener implements ChangeListener<Scene> {
             try {
                 DatabaseManager.getInstance().initialize();
                 Globe.getInstance().put("currentCategory", "Inbox");
-                ListManager.getInstance().showTaskList((VBox) Globe.getInstance().get("taskList"), (String) Globe.getInstance().get("currentCategory"));
-                ListManager.getInstance().showCategoryList((VBox) Globe.getInstance().get("categoryList"));
+                ListManager.getInstance().showTaskList();
+                ListManager.getInstance().showCategoryList();
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }

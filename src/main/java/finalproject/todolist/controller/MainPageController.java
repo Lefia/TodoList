@@ -33,7 +33,7 @@ public class MainPageController {
 
     @FXML
     private void refresh(ActionEvent event) throws SQLException {
-        ListManager.getInstance().showTaskList(taskList, (String) Globe.getInstance().get("currentCategory"));
+        ListManager.getInstance().showTaskList();
     }
 
     @FXML

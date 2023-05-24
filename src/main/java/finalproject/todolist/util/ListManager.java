@@ -10,32 +10,37 @@ import javafx.scene.layout.*;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 public class ListManager {
     // 顯示並刷新指定的任務清單
-    public void showTaskList(VBox list, String currentCategory) throws SQLException {
+    public void showTaskList() throws SQLException {
+        VBox list = (VBox) Globe.getInstance().get("taskList");
         list.getChildren().clear();
+        String currentCategory = (String) Globe.getInstance().get("currentCategory");
         ArrayList<Task> taskList = DatabaseManager.getInstance().queryTask(currentCategory);
         for (Task task : taskList) {
-            list.getChildren().add(ListManager.getInstance().createTask(list, task));
+            list.getChildren().add(ListManager.getInstance().createTask(task));
         }
     }
 
     // 顯示並刷新全部的任務
-    public void showAllTaskList(VBox list) throws SQLException {
+    public void showAllTaskList() throws SQLException {
+        VBox list = (VBox) Globe.getInstance().get("taskList");
         list.getChildren().clear();
         ArrayList<String> categoryList = DatabaseManager.getInstance().getAllCategories();
         for (String category : categoryList) {
             ArrayList<Task> taskList = DatabaseManager.getInstance().queryTask(category);
             for (Task task : taskList) {
-                list.getChildren().add(ListManager.getInstance().createTask(list, task));
+                list.getChildren().add(ListManager.getInstance().createTask(task));
             }
 
         }
     }
 
     // 顯示並刷新類別清單
-    public void showCategoryList(VBox list) throws SQLException {
+    public void showCategoryList() throws SQLException {
+        VBox list = (VBox) Globe.getInstance().get("categoryList");
         list.getChildren().clear();
         ArrayList<String> categoryList = DatabaseManager.getInstance().getAllCategories();
         for (String category : categoryList) {
@@ -44,7 +49,9 @@ public class ListManager {
     }
 
     // 在 taskList 上顯示任務
-    public GridPane createTask(VBox list, Task task) {
+    public GridPane createTask(Task task) {
+        VBox list = (VBox) Globe.getInstance().get("taskList");
+        // GridPane 樣式
         GridPane root = new GridPane();
         addColumnConstrains(root, 10);
         addColumnConstrains(root, 50);
@@ -69,6 +76,7 @@ public class ListManager {
         VBox labelsContainer = new VBox();
         Label name = new Label(task.getName());
         Label description = new Label(task.getDescription());
+        description.getStyleClass().add("wrap-text");
         labelsContainer.getChildren().addAll(name, description);
 
         hbox_1.getChildren().addAll(radioButton, labelsContainer);
@@ -102,12 +110,7 @@ public class ListManager {
             list.getChildren().remove(root);
         });
 
-        MenuItem showIdMenuItem = new MenuItem("輸出ID");
-        showIdMenuItem.setOnAction(event -> {
-            System.out.println(task.getId());
-        });
-
-        contextMenu.getItems().addAll(editMenuItem, deleteMenuItem, showIdMenuItem);
+        contextMenu.getItems().addAll(editMenuItem, deleteMenuItem);
         contextMenu.setOnHidden(event -> {
             root.setStyle("");
         });
@@ -123,18 +126,25 @@ public class ListManager {
     }
 
     // 在  categoryList 上顯示類別
-    public Button createCategory(String category) {
+    public Button createCategory(String category) throws SQLException {
         Button button = new Button();
         button.setText(category);
         button.setPrefWidth(100);
         button.setOnAction(event -> {
             try {
                 Globe.getInstance().put("currentCategory", category);
-                ListManager.getInstance().showTaskList((VBox) Globe.getInstance().get("taskList"), (String) Globe.getInstance().get("currentCategory"));
+                ListManager.getInstance().showTaskList();
+                ListManager.getInstance().showCategoryList();
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
         });
+
+        if (Globe.getInstance().get("currentCategory").equals(category)) {
+            button.setStyle("-fx-background-color: #8accff;" +
+                            "-fx-border-width: 2px;" +
+                            "-fx-border-radius: 5px");
+        }
 
         if (!category.equals("Inbox")) {
             ContextMenu contextMenu = new ContextMenu();
@@ -163,8 +173,8 @@ public class ListManager {
             button.setOnContextMenuRequested(event -> {
                 contextMenu.show(button, event.getScreenX(), event.getScreenY());
                 button.setStyle("-fx-background-color: #5eb9ff;" +
-                        "-fx-border-width: 2px;" +
-                        "-fx-border-radius: 5px");
+                                "-fx-border-width: 2px;" +
+                                "-fx-border-radius: 5px");
             });
         }
 
