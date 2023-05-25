@@ -34,6 +34,9 @@ public class MainPageController {
     private RadioMenuItem showDoneItem;
 
     @FXML
+    private RadioMenuItem defaultSortItem;
+
+    @FXML
     private void addTask(ActionEvent event) throws SQLException {
         DialogManager.getInstance().addTask();
     }
@@ -69,6 +72,8 @@ public class MainPageController {
     @FXML
     private void backToMenu(ActionEvent event) {
         SceneManager.getInstance().activate("ChoosingFile");
+        showDoneItem.setSelected(false);
+        defaultSortItem.setSelected(true);
     }
 
     @FXML
@@ -82,8 +87,12 @@ public class MainPageController {
         if (file != null) {
             String filePath = file.getAbsolutePath();
             DatabaseManager.getInstance().setFilePath(filePath);
-            SceneManager.getInstance().activate("MainPage");
+            showDoneItem.setSelected(false);
+            defaultSortItem.setSelected(true);
             DatabaseManager.getInstance().initialize();
+            SceneManager.getInstance().activate("MainPage");
+
+
         }
     }
 

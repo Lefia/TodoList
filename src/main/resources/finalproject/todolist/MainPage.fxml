@@ -30,7 +30,7 @@
                   <RadioMenuItem fx:id="showDoneItem" mnemonicParsing="false" onAction="#showDone" text="全部" />
                   <Menu mnemonicParsing="false" text="排序">
                     <items>
-                        <RadioMenuItem mnemonicParsing="false" onAction="#sort" selected="true" text="預設">
+                        <RadioMenuItem fx:id="defaultSortItem" mnemonicParsing="false" onAction="#sort" selected="true" text="預設">
                            <toggleGroup>
                               <ToggleGroup fx:id="sortGroup" />
                            </toggleGroup>
