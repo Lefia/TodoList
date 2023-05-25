@@ -47,11 +47,6 @@ public class MainPageController {
     }
 
     @FXML
-    private void refresh(ActionEvent ignoredEvent) throws SQLException {
-        ListManager.getInstance().showTaskList();
-    }
-
-    @FXML
     private void showDone(ActionEvent ignoredEvent) throws SQLException {
         if (showDoneItem.isSelected()) {
             Globe.getInstance().put("showDone", true);
