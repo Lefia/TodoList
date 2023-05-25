@@ -15,10 +15,21 @@ import java.util.ArrayList;
 import java.util.Comparator;
 
 public class ListManager {
+    private VBox taskContainer;
+
+    private VBox categoryContainer;
+
+    public void setTaskContainer(VBox taskContainer) {
+        this.taskContainer = taskContainer;
+    }
+
+    public void setCategoryContainer(VBox categoryContainer) {
+        this.categoryContainer = categoryContainer;
+    }
+
     // 顯示並刷新指定的任務清單
     public void showTaskList() throws SQLException {
-        VBox list = (VBox) Globe.getInstance().get("taskList");
-        list.getChildren().clear();
+        taskContainer.getChildren().clear();
         String currentCategory = (String) Globe.getInstance().get("currentCategory");
         ArrayList<Task> taskList = DatabaseManager.getInstance().queryTask(currentCategory);
 
@@ -35,13 +46,13 @@ public class ListManager {
 
         for (Task task : taskList) {
             if (!task.isDone()) {
-                list.getChildren().add(ListManager.getInstance().createTask(task));
+                taskContainer.getChildren().add(ListManager.getInstance().createTask(task));
             }
         }
         if (showDone) {
             for (Task task : taskList) {
                 if (task.isDone()) {
-                    list.getChildren().add(ListManager.getInstance().createTask(task));
+                    taskContainer.getChildren().add(ListManager.getInstance().createTask(task));
                 }
             }
         }
@@ -49,27 +60,25 @@ public class ListManager {
 
     // 顯示並刷新類別清單
     public void showCategoryList() throws SQLException {
-        VBox list = (VBox) Globe.getInstance().get("categoryList");
-        list.getChildren().clear();
+        categoryContainer.getChildren().clear();
         ArrayList<String> categoryList = DatabaseManager.getInstance().getAllCategories();
-        list.getChildren().add(ListManager.getInstance().createCategory("收件箱"));
+        categoryContainer.getChildren().add(ListManager.getInstance().createCategory("收件箱"));
         for (String category : categoryList) {
             if (!category.equals("收件箱")) {
-                list.getChildren().add(ListManager.getInstance().createCategory(category));
+                categoryContainer.getChildren().add(ListManager.getInstance().createCategory(category));
             }
         }
     }
 
     // 在 taskList 上顯示任務
     public GridPane createTask(Task task) {
-        VBox list = (VBox) Globe.getInstance().get("taskList");
         // GridPane 樣式
         GridPane root = new GridPane();
         addColumnConstrains(root, 10);
         addColumnConstrains(root, 50);
         addColumnConstrains(root, 40);
         root.setPadding(new Insets(5));
-        root.prefWidthProperty().bind(list.widthProperty());
+        root.prefWidthProperty().bind(taskContainer.widthProperty());
         root.setHgap(3);
         root.setVgap(1);
 
@@ -125,7 +134,6 @@ public class ListManager {
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
-            list.getChildren().remove(root);
         });
 
         contextMenu.getItems().addAll(editMenuItem, deleteMenuItem);
@@ -222,7 +230,7 @@ public class ListManager {
         root.getColumnConstraints().add(columnConstraints);
     }
 
-    /* Singleton */
+    /**** 單例 *****/
     private ListManager() {}
 
     private static ListManager instance;

@@ -18,10 +18,8 @@
       <MenuItem mnemonicParsing="false" onAction="#backToMenu" text="返回選單"/>
     </Menu>
     <Menu mnemonicParsing="false" text="編輯">
-      <items>
-        <MenuItem mnemonicParsing="false" onAction="#addTask" text="新增任務"/>
-        <MenuItem mnemonicParsing="false" onAction="#addCategory" text="新增類別"/>
-      </items>
+      <MenuItem mnemonicParsing="false" onAction="#addTask" text="新增任務"/>
+      <MenuItem mnemonicParsing="false" onAction="#addCategory" text="新增類別"/>
     </Menu>
     <Menu mnemonicParsing="false" text="檢視">
       <RadioMenuItem fx:id="showDoneItem" mnemonicParsing="false" onAction="#showDone" text="全部"/>

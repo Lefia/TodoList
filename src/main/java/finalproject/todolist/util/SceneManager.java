@@ -8,11 +8,10 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Objects;
 
 public class SceneManager {
     private Stage stage;
-
-    public String currentScene = "MainPage";
 
     private final HashMap<String, Scene> sceneMap = new HashMap<>();
 
@@ -29,7 +28,7 @@ public class SceneManager {
     public void addScene(String name, String stylesheet) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource(name + ".fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 600, 400);
-        scene.getStylesheets().add(Main.class.getResource(stylesheet + ".css").toExternalForm());
+        scene.getStylesheets().add(Objects.requireNonNull(Main.class.getResource(stylesheet + ".css")).toExternalForm());
         sceneMap.put(name, scene);
     }
 
@@ -37,25 +36,18 @@ public class SceneManager {
         return sceneMap.get(name);
     }
 
-    public void removeScene(String name){
-        sceneMap.remove(name);
-    }
-
+    // 切換場景
     public void activate(String name) {
         stage.setScene(sceneMap.get(name));
-        currentScene = name;
     }
 
-    /* 單例 Singleton */
-
-    // Constructor
+    /**** 單例 ****/
     private SceneManager() throws IOException {
         addScene("ChoosingFile");
         addScene("CreateNewFile");
         addScene("MainPage", "stylesheet");
     }
 
-    // Instance for singleton
     public static SceneManager instance;
 
     public static SceneManager getInstance() {

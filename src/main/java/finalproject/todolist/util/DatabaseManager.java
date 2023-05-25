@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 public class DatabaseManager {
     private String filePath;
+
     private Connection connection;
 
     public void setFilePath(String fullpath) {
@@ -45,6 +46,8 @@ public class DatabaseManager {
         ListManager.getInstance().showTaskList();
         ListManager.getInstance().showCategoryList();
     }
+
+    /**** 任務 ****/
 
     // 新增任務到資料庫
     public void addTask(Task task) throws SQLException {
@@ -113,6 +116,8 @@ public class DatabaseManager {
         return  taskList;
     }
 
+    /**** 類別 ****/
+
     // 建立新的類別
     public void createCategory(String category) throws SQLException {
         connect();
@@ -167,7 +172,7 @@ public class DatabaseManager {
         ListManager.getInstance().showCategoryList();
     }
 
-    /* 單例 */
+    /**** 單例 ****/
     private DatabaseManager() {}
 
     public static DatabaseManager instance = new DatabaseManager();

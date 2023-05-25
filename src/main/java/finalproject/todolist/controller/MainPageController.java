@@ -69,6 +69,7 @@ public class MainPageController {
         ListManager.getInstance().showTaskList();
     }
 
+    // 切換場景至 ChoosingFile
     @FXML
     private void backToMenu(ActionEvent ignoredEvent) {
         SceneManager.getInstance().activate("ChoosingFile");
@@ -76,6 +77,7 @@ public class MainPageController {
         defaultSortItem.setSelected(true);
     }
 
+    // 開啟檔案
     @FXML
     private void openFile(ActionEvent ignoredEvent) throws SQLException {
         FileChooser fileChooser = new FileChooser();
@@ -91,15 +93,13 @@ public class MainPageController {
             defaultSortItem.setSelected(true);
             DatabaseManager.getInstance().initialize();
             SceneManager.getInstance().activate("MainPage");
-
-
         }
     }
 
     @FXML
     private void initialize() {
         taskList.prefWidthProperty().bind(scrollpane.widthProperty());
-        Globe.getInstance().put("taskList", taskList);
-        Globe.getInstance().put("categoryList", categoryList);
+        ListManager.getInstance().setTaskContainer(taskList);
+        ListManager.getInstance().setCategoryContainer(categoryList);
     }
 }

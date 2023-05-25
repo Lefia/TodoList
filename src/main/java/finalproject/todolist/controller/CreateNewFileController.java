@@ -24,10 +24,14 @@ public class CreateNewFileController {
     private AnchorPane root;
     @FXML
     private TextField name;
+
+    // 返回 ChoosingFile
     @FXML
     public void back(ActionEvent ignoredEvent) {
         SceneManager.getInstance().activate("ChoosingFile");
     }
+
+    // 瀏覽資料夾
     @FXML
     public void browse(ActionEvent ignoredEvent) {
         DirectoryChooser directoryChooser = new DirectoryChooser();
@@ -40,6 +44,8 @@ public class CreateNewFileController {
 
         }
     }
+
+    // 建立新檔案
     @FXML
     public void create(ActionEvent ignoredEvent){
         if (filePath != null) {

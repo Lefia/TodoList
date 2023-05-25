@@ -12,6 +12,7 @@ import java.sql.SQLException;
 public class SceneListener implements ChangeListener<Scene> {
     @Override
     public void changed(ObservableValue<? extends Scene> observable, Scene oldScene, Scene newScene) {
+        // 當場景切換至 MainPage 時
         if (newScene.equals(SceneManager.getInstance().getScene("MainPage"))) {
             try {
                 DatabaseManager.getInstance().initialize();
@@ -19,6 +20,8 @@ public class SceneListener implements ChangeListener<Scene> {
                 throw new RuntimeException(e);
             }
         }
+
+        // 當場景由 Choosing 切換至 CreateNewFile 時
         else if (newScene.equals(SceneManager.getInstance().getScene("CreateNewFile"))
                 && oldScene.equals(SceneManager.getInstance().getScene("ChoosingFile"))) {
             Label createFileMessage = (Label) Globe.getInstance().get("createFileMessage");
@@ -29,6 +32,8 @@ public class SceneListener implements ChangeListener<Scene> {
 
     }
 
+
+    /**** 單例 ****/
     private SceneListener() {}
 
     private static SceneListener instance;
