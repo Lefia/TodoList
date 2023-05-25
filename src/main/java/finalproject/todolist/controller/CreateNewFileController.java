@@ -1,5 +1,6 @@
 package finalproject.todolist.controller;
 
+import finalproject.todolist.Globe;
 import finalproject.todolist.util.DatabaseManager;
 import finalproject.todolist.util.SceneManager;
 
@@ -31,7 +32,7 @@ public class CreateNewFileController {
     public void browse(ActionEvent event) {
         DirectoryChooser directoryChooser = new DirectoryChooser();
         directoryChooser.setInitialDirectory(new File(System.getProperty("user.home")));
-        directoryChooser.setTitle("Select Folder");
+        directoryChooser.setTitle("選擇資料夾");
         File directory = directoryChooser.showDialog(root.getScene().getWindow());
         if (directory != null) {
             filePath = directory.getAbsolutePath();
@@ -50,8 +51,14 @@ public class CreateNewFileController {
             }
             SceneManager.getInstance().activate("MainPage");
         } else {
-            message.setText("Please select the folder!");
+            message.setText("請選擇資料夾！");
             message.setTextFill(Color.RED);
         }
+    }
+
+    @FXML
+    private void initialize() {
+        Globe.getInstance().put("createFileMessage", message);
+        Globe.getInstance().put("createFileName", name);
     }
 }
