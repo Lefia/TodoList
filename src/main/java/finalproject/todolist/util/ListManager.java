@@ -47,27 +47,16 @@ public class ListManager {
         }
     }
 
-    // 顯示並刷新全部的任務
-    public void showAllTaskList() throws SQLException {
-        VBox list = (VBox) Globe.getInstance().get("taskList");
-        list.getChildren().clear();
-        ArrayList<String> categoryList = DatabaseManager.getInstance().getAllCategories();
-        for (String category : categoryList) {
-            ArrayList<Task> taskList = DatabaseManager.getInstance().queryTask(category);
-            for (Task task : taskList) {
-                list.getChildren().add(ListManager.getInstance().createTask(task));
-            }
-
-        }
-    }
-
     // 顯示並刷新類別清單
     public void showCategoryList() throws SQLException {
         VBox list = (VBox) Globe.getInstance().get("categoryList");
         list.getChildren().clear();
         ArrayList<String> categoryList = DatabaseManager.getInstance().getAllCategories();
+        list.getChildren().add(ListManager.getInstance().createCategory("收件箱"));
         for (String category : categoryList) {
-            list.getChildren().add(ListManager.getInstance().createCategory(category));
+            if (!category.equals("收件箱")) {
+                list.getChildren().add(ListManager.getInstance().createCategory(category));
+            }
         }
     }
 
@@ -151,9 +140,8 @@ public class ListManager {
                           "-fx-border-radius: 5px");
         });
 
-        // 將已完成的任務標記為灰色的
         if (task.isDone()) {
-            root.setStyle("-fx-background-color: #ababab");
+            root.setStyle("-fx-opacity: 0.5");
         }
 
         return root;
@@ -219,7 +207,7 @@ public class ListManager {
     static class DateComparator implements Comparator<Task> {
         @Override
         public int compare(Task t1, Task t2) {
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
             return LocalDate.parse(t1.getDate(), formatter).compareTo(LocalDate.parse(t2.getDate(), formatter));
         }
     }
