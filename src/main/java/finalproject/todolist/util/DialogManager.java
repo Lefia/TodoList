@@ -81,7 +81,7 @@ public class DialogManager {
                     Task task = new Task(randomString(),
                                          nameTextField.getText().trim(),
                                          descriptionTextArea.getText().trim(),
-                                         datePicker.getValue().format(DateTimeFormatter.ofPattern("yyyy/MM/dd")),
+                                         datePicker.getValue().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")),
                                     false,
                                          combobox.getValue());
                     DatabaseManager.getInstance().addTask(task);
@@ -124,7 +124,7 @@ public class DialogManager {
         GridPane.setValignment(dateLabel, VPos.TOP);
         root.add(dateLabel, 0, 1);
         DatePicker datePicker = new DatePicker();
-        datePicker.setValue(LocalDate.parse(oldTask.getDate(), DateTimeFormatter.ofPattern("yyyy/MM/dd")));
+        datePicker.setValue(LocalDate.parse(oldTask.getDate(), DateTimeFormatter.ofPattern("yyyy-MM-dd")));
         root.add(datePicker, 1, 1);
 
         // 任務類別
@@ -162,7 +162,7 @@ public class DialogManager {
                     Task newTask = new Task(oldTask.getId(),
                             nameTextField.getText(),
                             descriptionTextArea.getText(),
-                            datePicker.getValue().format(DateTimeFormatter.ofPattern("yyyy/MM/dd")),
+                            datePicker.getValue().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")),
                             oldTask.isDone(),
                             combobox.getValue());
                     DatabaseManager.getInstance().editTask(oldTask, newTask);
