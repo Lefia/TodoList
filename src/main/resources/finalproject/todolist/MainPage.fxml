@@ -13,39 +13,31 @@
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="finalproject.todolist.controller.MainPageController">
 <top>
   <MenuBar BorderPane.alignment="CENTER">
-    <menus>
-            <Menu mnemonicParsing="false" text="檔案">
-              <items>
-                <MenuItem mnemonicParsing="false" onAction="#openFile" text="開啟檔案" />
-                  <MenuItem mnemonicParsing="false" onAction="#backToMenu" text="返回選單" />
-              </items>
-            </Menu>
-      <Menu mnemonicParsing="false" text="編輯">
-               <items>
-                  <MenuItem mnemonicParsing="false" onAction="#addTask" text="新增任務" />
-                  <MenuItem mnemonicParsing="false" onAction="#addCategory" text="新增類別" />
-               </items></Menu>
-      <Menu mnemonicParsing="false" text="檢視">
-               <items>
-                  <RadioMenuItem fx:id="showDoneItem" mnemonicParsing="false" onAction="#showDone" text="全部" />
-                  <Menu mnemonicParsing="false" text="排序">
-                    <items>
-                        <RadioMenuItem fx:id="defaultSortItem" mnemonicParsing="false" onAction="#sort" selected="true" text="預設">
-                           <toggleGroup>
-                              <ToggleGroup fx:id="sortGroup" />
-                           </toggleGroup>
-                        </RadioMenuItem>
-                        <RadioMenuItem mnemonicParsing="false" onAction="#sort" text="日期" toggleGroup="$sortGroup" />
-                        <RadioMenuItem mnemonicParsing="false" onAction="#sort" text="名稱" toggleGroup="$sortGroup" />
-                    </items>
-                  </Menu>
-               </items></Menu>
-      <Menu mnemonicParsing="false" text="測試">
-        <items>
-          <MenuItem mnemonicParsing="false" onAction="#refresh" text="重新整理" />
-        </items>
+    <Menu mnemonicParsing="false" text="檔案">
+      <MenuItem mnemonicParsing="false" onAction="#openFile" text="開啟檔案"/>
+      <MenuItem mnemonicParsing="false" onAction="#backToMenu" text="返回選單"/>
+    </Menu>
+    <Menu mnemonicParsing="false" text="編輯">
+      <items>
+        <MenuItem mnemonicParsing="false" onAction="#addTask" text="新增任務"/>
+        <MenuItem mnemonicParsing="false" onAction="#addCategory" text="新增類別"/>
+      </items>
+    </Menu>
+    <Menu mnemonicParsing="false" text="檢視">
+      <RadioMenuItem fx:id="showDoneItem" mnemonicParsing="false" onAction="#showDone" text="全部"/>
+      <Menu mnemonicParsing="false" text="排序">
+        <RadioMenuItem fx:id="defaultSortItem" mnemonicParsing="false" onAction="#sort" selected="true" text="預設">
+          <toggleGroup>
+            <ToggleGroup fx:id="sortGroup"/>
+          </toggleGroup>
+        </RadioMenuItem>
+        <RadioMenuItem mnemonicParsing="false" onAction="#sort" text="日期" toggleGroup="$sortGroup"/>
+        <RadioMenuItem mnemonicParsing="false" onAction="#sort" text="名稱" toggleGroup="$sortGroup"/>
       </Menu>
-    </menus>
+    </Menu>
+    <Menu mnemonicParsing="false" text="測試">
+      <MenuItem mnemonicParsing="false" onAction="#refresh" text="重新整理"/>
+    </Menu>
   </MenuBar>
 </top>
 <left>
@@ -56,12 +48,11 @@
 </left>
 <center>
   <ScrollPane fx:id="scrollpane" hbarPolicy="NEVER" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-         <content>
-            <VBox fx:id="taskList" prefHeight="200.0" prefWidth="480.0" spacing="10.0">
-               <padding>
-                  <Insets top="15.0" />
-               </padding></VBox>
-         </content>
+    <VBox fx:id="taskList" prefHeight="200.0" prefWidth="480.0" spacing="10.0">
+      <padding>
+        <Insets top="15.0"/>
+      </padding>
+    </VBox>
   </ScrollPane>
 </center>
 </BorderPane>

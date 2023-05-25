@@ -37,22 +37,22 @@ public class MainPageController {
     private RadioMenuItem defaultSortItem;
 
     @FXML
-    private void addTask(ActionEvent event) throws SQLException {
+    private void addTask(ActionEvent ignoredEvent) throws SQLException {
         DialogManager.getInstance().addTask();
     }
 
     @FXML
-    private void addCategory(ActionEvent event) {
+    private void addCategory(ActionEvent ignoredEvent) {
         DialogManager.getInstance().addCategory();
     }
 
     @FXML
-    private void refresh(ActionEvent event) throws SQLException {
+    private void refresh(ActionEvent ignoredEvent) throws SQLException {
         ListManager.getInstance().showTaskList();
     }
 
     @FXML
-    private void showDone(ActionEvent event) throws SQLException {
+    private void showDone(ActionEvent ignoredEvent) throws SQLException {
         if (showDoneItem.isSelected()) {
             Globe.getInstance().put("showDone", true);
         }
@@ -63,21 +63,21 @@ public class MainPageController {
     }
 
     @FXML
-    private void sort() throws SQLException {
+    private void sort(ActionEvent ignoredEvent) throws SQLException {
         RadioMenuItem selectedItem = (RadioMenuItem) sortGroup.getSelectedToggle();
         Globe.getInstance().put("sortType", selectedItem.getText());
         ListManager.getInstance().showTaskList();
     }
 
     @FXML
-    private void backToMenu(ActionEvent event) {
+    private void backToMenu(ActionEvent ignoredEvent) {
         SceneManager.getInstance().activate("ChoosingFile");
         showDoneItem.setSelected(false);
         defaultSortItem.setSelected(true);
     }
 
     @FXML
-    private void openFile(ActionEvent event) throws SQLException {
+    private void openFile(ActionEvent ignoredEvent) throws SQLException {
         FileChooser fileChooser = new FileChooser();
         FileChooser.ExtensionFilter fileExtensions = new FileChooser.ExtensionFilter("資料庫 (*.db)", "*.db");
         fileChooser.getExtensionFilters().add(fileExtensions);

@@ -335,7 +335,7 @@ public class DialogManager {
     }
 
     // singleton
-    private DialogManager() {};
+    private DialogManager() {}
 
     public static DialogManager instance;
 

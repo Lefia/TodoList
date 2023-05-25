@@ -29,7 +29,7 @@ public class SceneListener implements ChangeListener<Scene> {
 
     }
 
-    private SceneListener() {};
+    private SceneListener() {}
 
     private static SceneListener instance;
 

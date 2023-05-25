@@ -129,9 +129,7 @@ public class ListManager {
         });
 
         contextMenu.getItems().addAll(editMenuItem, deleteMenuItem);
-        contextMenu.setOnHidden(event -> {
-            root.setStyle("");
-        });
+        contextMenu.setOnHidden(event -> root.setStyle(""));
 
         root.setOnContextMenuRequested(event -> {
             contextMenu.show(root, event.getScreenX(), event.getScreenY());
@@ -148,7 +146,7 @@ public class ListManager {
     }
 
     // 在  categoryList 上顯示類別
-    public Button createCategory(String category) throws SQLException {
+    public Button createCategory(String category) {
         Button button = new Button();
         button.setText(category);
         button.setPrefWidth(100);
@@ -172,25 +170,21 @@ public class ListManager {
             ContextMenu contextMenu = new ContextMenu();
 
             MenuItem editMenuItem = new MenuItem("編輯");
-            editMenuItem.setOnAction(event -> {
-                DialogManager.getInstance().editCategory(category);
-            });
+            editMenuItem.setOnAction(event -> DialogManager.getInstance().editCategory(category));
 
             MenuItem deleteMenuItem = new MenuItem("刪除");
-            deleteMenuItem.setOnAction(event -> {
+            deleteMenuItem.setOnAction(event ->
                 DialogManager.getInstance().showWarningAlertWithButton("確定要刪除？", actionHandler -> {
                     try {
                         DatabaseManager.getInstance().deleteCategory(category);
                     } catch (SQLException e) {
                         throw new RuntimeException(e);
                     }
-                });
-            });
+                })
+            );
 
             contextMenu.getItems().addAll(editMenuItem, deleteMenuItem);
-            contextMenu.setOnHidden(event -> {
-                button.setStyle("");
-            });
+            contextMenu.setOnHidden(event -> button.setStyle(""));
 
             button.setOnContextMenuRequested(event -> {
                 contextMenu.show(button, event.getScreenX(), event.getScreenY());

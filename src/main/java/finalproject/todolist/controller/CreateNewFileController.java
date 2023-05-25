@@ -25,11 +25,11 @@ public class CreateNewFileController {
     @FXML
     private TextField name;
     @FXML
-    public void back(ActionEvent event) {
+    public void back(ActionEvent ignoredEvent) {
         SceneManager.getInstance().activate("ChoosingFile");
     }
     @FXML
-    public void browse(ActionEvent event) {
+    public void browse(ActionEvent ignoredEvent) {
         DirectoryChooser directoryChooser = new DirectoryChooser();
         directoryChooser.setInitialDirectory(new File(System.getProperty("user.home")));
         directoryChooser.setTitle("選擇資料夾");
@@ -41,7 +41,7 @@ public class CreateNewFileController {
         }
     }
     @FXML
-    public void create(ActionEvent event){
+    public void create(ActionEvent ignoredEvent){
         if (filePath != null) {
             if (!name.getText().trim().isEmpty()) {
                 DatabaseManager.getInstance().setFilePath(filePath, name.getText());
